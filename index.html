@@ -608,7 +608,7 @@
         // Supabase setup
         const SUPABASE_URL = 'https://bgvmhnqifsjypebavxto.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJndm1obnFpZnNqeXBlYmF2eHRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1NjE4MzMsImV4cCI6MjA4MTEzNzgzM30.C_wwv8JvyOMBZ_M47DOSSrC5mm3UB6MDHxTvDIm-YWY';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentCategory = null;
         let posts = [];
@@ -652,7 +652,7 @@
             const container = document.getElementById('postsContainer');
             container.innerHTML = '<div class="empty-state"><p>loading...</p></div>';
 
-            const { data, error } = await supabase
+            const { data, error } = await db
                 .from('posts')
                 .select('*')
                 .eq('category', category)
@@ -686,7 +686,7 @@
             localStorage.setItem('friendsme_related', JSON.stringify(relatedPosts));
 
             // Update in Supabase
-            const { error } = await supabase
+            const { error } = await db
                 .from('posts')
                 .update({ relates: newRelates })
                 .eq('id', postId);
@@ -783,7 +783,7 @@
             document.getElementById('modalSubmitBtn').disabled = true;
             document.getElementById('modalSubmitBtn').textContent = 'Posting...';
 
-            const { data, error } = await supabase
+            const { data, error } = await db
                 .from('posts')
                 .insert([{
                     category: category,
