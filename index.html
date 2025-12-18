@@ -520,14 +520,14 @@
             <textarea id="modalContent" class="modal-input modal-textarea" placeholder="What's on your mind..."></textarea>
             <select id="modalCategory" class="modal-select">
                 <option value="" disabled selected>Select a room...</option>
-                <option value="lust">🔥 Lust</option>
+                <option value="daily-thoughts">💭 Daily Thoughts</option>
                 <option value="addictions">🎰 Addictions</option>
-                <option value="burnout">🪫 Burnout</option>
-                <option value="cheating">🗡️ Cheating</option>
+                <option value="unpopular-opinions">🙊 Unpopular Opinions</option>
+                <option value="conspiracy">👁️ Conspiracy Theories</option>
                 <option value="anger">💢 Anger</option>
                 <option value="dark-thoughts">🌑 Dark Thoughts</option>
                 <option value="free-speech">📢 Free Speech</option>
-                <option value="loneliness">🚶 Loneliness</option>
+                <option value="religious-trauma">⛪ Religious Trauma</option>
                 <option value="love">💔 Love</option>
                 <option value="abuse">🤕 Abuse</option>
             </select>
@@ -543,25 +543,25 @@
         <!-- Category Selection View -->
         <div id="homeView">
             <div class="categories">
-                <div class="category-card" data-category="lust">
-                    <div class="category-visual">🔥</div>
-                    <div class="category-name">Lust</div>
-                    <div class="category-desc">When desire takes over your thoughts</div>
+                <div class="category-card" data-category="daily-thoughts">
+                    <div class="category-visual">💭</div>
+                    <div class="category-name">Daily Thoughts</div>
+                    <div class="category-desc">What's running through your mind today</div>
                 </div>
                 <div class="category-card" data-category="addictions">
                     <div class="category-visual">🎰</div>
                     <div class="category-name">Addictions</div>
                     <div class="category-desc">Struggling with habits you can't control</div>
                 </div>
-                <div class="category-card" data-category="burnout">
-                    <div class="category-visual">🪫</div>
-                    <div class="category-name">Burnout</div>
-                    <div class="category-desc">Exhausted from giving too much</div>
+                <div class="category-card" data-category="unpopular-opinions">
+                    <div class="category-visual">🙊</div>
+                    <div class="category-name">Unpopular Opinions</div>
+                    <div class="category-desc">Views you're afraid to say out loud</div>
                 </div>
-                <div class="category-card" data-category="cheating">
-                    <div class="category-visual">🗡️</div>
-                    <div class="category-name">Cheating</div>
-                    <div class="category-desc">Betrayal, lies, and broken promises</div>
+                <div class="category-card" data-category="conspiracy">
+                    <div class="category-visual">👁️</div>
+                    <div class="category-name">Conspiracy Theories</div>
+                    <div class="category-desc">Question everything you've been told</div>
                 </div>
                 <div class="category-card" data-category="anger">
                     <div class="category-visual">💢</div>
@@ -578,10 +578,10 @@
                     <div class="category-name">Free Speech</div>
                     <div class="category-desc">Get it off your chest, no judgement</div>
                 </div>
-                <div class="category-card" data-category="loneliness">
-                    <div class="category-visual">🚶</div>
-                    <div class="category-name">Loneliness</div>
-                    <div class="category-desc">Surrounded by people, still alone</div>
+                <div class="category-card" data-category="religious-trauma">
+                    <div class="category-visual">⛪</div>
+                    <div class="category-name">Religious Trauma</div>
+                    <div class="category-desc">Faith, doubt, and spiritual wounds</div>
                 </div>
                 <div class="category-card" data-category="love">
                     <div class="category-visual">💔</div>
@@ -616,14 +616,14 @@
         let relatedPosts = JSON.parse(localStorage.getItem('friendsme_related')) || [];
 
         const categoryNames = {
-            'lust': 'lust',
+            'daily-thoughts': 'daily thoughts',
             'addictions': 'addictions',
-            'burnout': 'burnout',
-            'cheating': 'cheating',
+            'unpopular-opinions': 'unpopular opinions',
+            'conspiracy': 'conspiracy theories',
             'anger': 'anger & hatred',
             'dark-thoughts': 'dark thoughts',
             'free-speech': 'free speech',
-            'loneliness': 'loneliness',
+            'religious-trauma': 'religious trauma',
             'love': 'love',
             'abuse': 'abuse'
         };
