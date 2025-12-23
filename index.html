@@ -509,11 +509,15 @@
             .category-card {
                 padding: 24px 12px;
                 min-height: 170px;
+                font-size: 1.05rem;
+                border-radius: 18px;
+                margin-bottom: 8px;
             }
 
             .category-visual {
                 width: 54px;
                 height: 54px;
+                font-size: 2.2rem;
             }
 
             .category-visual svg {
@@ -522,11 +526,63 @@
             }
 
             .category-name {
-                font-size: 0.9rem;
+                font-size: 1.1rem;
+                margin-bottom: 6px;
             }
 
             .category-desc {
-                font-size: 0.72rem;
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 2px;
+            }
+
+            .plus-btn {
+                width: 56px;
+                height: 56px;
+                font-size: 2.1rem;
+                top: 12px;
+                right: 12px;
+            }
+
+            .modal {
+                max-width: 98vw;
+                padding: 12px;
+            }
+
+            .modal-title {
+                font-size: 1.1rem;
+            }
+
+            .modal-input, .modal-select, .modal-submit {
+                font-size: 1.05rem;
+                padding: 14px 10px;
+            }
+
+            .modal-textarea {
+                height: 80px;
+            }
+
+            .modal-submit {
+                padding: 14px;
+                font-size: 1.1rem;
+            }
+
+            .post {
+                padding: 12px;
+                font-size: 1.05rem;
+            }
+
+            .post-headline {
+                font-size: 1.05rem;
+            }
+
+            .post-content {
+                font-size: 1rem;
+            }
+
+            .relate-btn {
+                padding: 12px 16px;
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -553,7 +609,9 @@
                 <option value="free-speech">📢 Free Speech</option>
                 <option value="religious-trauma">⛪ Religious Trauma</option>
                 <option value="love">💔 Love</option>
-                <option value="abuse">🤕 Abuse</option>
+                <option value="confessions">📝 Confessions</option>
+                <option value="masks">🎭 Masks & Pretending</option>
+                <option value="failure-shame">😞 Failure & Shame</option>
             </select>
             <button id="modalSubmitBtn" class="modal-submit" onclick="submitModalPost()" disabled>Post</button>
         </div>
@@ -612,10 +670,20 @@
                     <div class="category-name">Love</div>
                     <div class="category-desc">Heartbreak, crushes, and everything between</div>
                 </div>
-                <div class="category-card" data-category="abuse">
-                    <div class="category-visual">🤕</div>
-                    <div class="category-name">Abuse</div>
-                    <div class="category-desc">Scars that others can't always see</div>
+                <div class="category-card" data-category="confessions">
+                    <div class="category-visual">📝</div>
+                    <div class="category-name">Confessions</div>
+                    <div class="category-desc">Say what you can't say anywhere else</div>
+                </div>
+                <div class="category-card" data-category="masks">
+                    <div class="category-visual">🎭</div>
+                    <div class="category-name">Masks & Pretending</div>
+                    <div class="category-desc">The exhaustion of faking who you are</div>
+                </div>
+                <div class="category-card" data-category="failure-shame">
+                    <div class="category-visual">😞</div>
+                    <div class="category-name">Failure & Shame</div>
+                    <div class="category-desc">Career collapse, humiliation, looking stupid</div>
                 </div>
             </div>
         </div>
@@ -649,7 +717,9 @@
             'free-speech': 'free speech',
             'religious-trauma': 'religious trauma',
             'love': 'love',
-            'abuse': 'abuse'
+            'confessions': 'confessions',
+            'masks': 'masks & pretending',
+            'failure-shame': 'failure & shame'
         };
 
         // Event listeners for category cards
