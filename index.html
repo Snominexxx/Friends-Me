@@ -31,6 +31,90 @@
     <!-- v1.2 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+                .main-layout {
+                    display: flex;
+                    flex-direction: row;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    min-height: 80vh;
+                }
+                .sidebar {
+                    width: 260px;
+                    background: #192734;
+                    border-right: 1px solid #38444d;
+                    padding: 24px 16px 24px 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 32px;
+                    position: sticky;
+                    top: 0;
+                    align-self: flex-start;
+                    height: 100vh;
+                    min-height: 100vh;
+                }
+                .sidebar-section h3 {
+                    color: #1da1f2;
+                    font-size: 1.05rem;
+                    margin-bottom: 8px;
+                }
+                .sidebar-section ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                .sidebar-section ul li {
+                    margin-bottom: 8px;
+                    color: #e7e9ea;
+                    font-size: 0.97rem;
+                }
+                .sidebar-section p {
+                    color: #8899a6;
+                    font-size: 0.95rem;
+                }
+                .main-feed {
+                    flex: 1;
+                    padding: 32px 24px 24px 24px;
+                    min-width: 0;
+                }
+                #latestPostContainer {
+                    margin: 0 auto;
+                    max-width: 520px;
+                }
+                @media (max-width: 900px) {
+                    .main-layout {
+                        flex-direction: column;
+                    }
+                    .sidebar {
+                        width: 100%;
+                        border-right: none;
+                        border-bottom: 1px solid #38444d;
+                        flex-direction: row;
+                        gap: 16px;
+                        padding: 12px 8px;
+                        overflow-x: auto;
+                    }
+                    .sidebar-section {
+                        min-width: 180px;
+                    }
+                    .main-feed {
+                        padding: 18px 6px 12px 6px;
+                    }
+                }
+                @media (max-width: 700px) {
+                    .main-layout {
+                        flex-direction: column;
+                    }
+                    .sidebar {
+                        flex-direction: column;
+                        width: 100%;
+                        border-bottom: 1px solid #38444d;
+                        border-right: none;
+                        padding: 8px 2px;
+                    }
+                    .main-feed {
+                        padding: 8px 2px 8px 2px;
+                    }
+                }
         * {
             margin: 0;
             padding: 0;
@@ -68,7 +152,7 @@
 
         .categories {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
             justify-content: center;
             max-width: 100%;
@@ -492,7 +576,7 @@
 
         @media (max-width: 700px) {
             .categories {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
@@ -502,7 +586,7 @@
             }
 
             .categories {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(4, 1fr);
                 gap: 10px;
             }
 
@@ -588,6 +672,7 @@
     </style>
 </head>
 <body>
+
     <button class="plus-btn" onclick="openModal()">+</button>
 
     <div id="composeModal" class="modal-overlay hidden" onclick="closeModalOnOverlay(event)">
@@ -617,84 +702,20 @@
         </div>
     </div>
 
-    <div class="container">
-        <header>
-            <h1>Friends<span>&</span>Me</h1>
-        </header>
-
-        <!-- Category Selection View -->
-        <div id="homeView">
-            <div class="categories">
-                <div class="category-card" data-category="daily-thoughts">
-                    <div class="category-visual">💭</div>
-                    <div class="category-name">Daily Thoughts</div>
-                    <div class="category-desc">What's running through your mind today</div>
-                </div>
-                <div class="category-card" data-category="addictions">
-                    <div class="category-visual">🎰</div>
-                    <div class="category-name">Addictions</div>
-                    <div class="category-desc">Struggling with habits you can't control</div>
-                </div>
-                <div class="category-card" data-category="unpopular-opinions">
-                    <div class="category-visual">🙊</div>
-                    <div class="category-name">Unpopular Opinions</div>
-                    <div class="category-desc">Views you're afraid to say out loud</div>
-                </div>
-                <div class="category-card" data-category="conspiracy">
-                    <div class="category-visual">👁️</div>
-                    <div class="category-name">Conspiracy Theories</div>
-                    <div class="category-desc">Question everything you've been told</div>
-                </div>
-                <div class="category-card" data-category="anger">
-                    <div class="category-visual">💢</div>
-                    <div class="category-name">Anger</div>
-                    <div class="category-desc">Fury that's hard to contain</div>
-                </div>
-                <div class="category-card" data-category="dark-thoughts">
-                    <div class="category-visual">🌑</div>
-                    <div class="category-name">Dark Thoughts</div>
-                    <div class="category-desc">When your mind becomes your enemy</div>
-                </div>
-                <div class="category-card" data-category="free-speech">
-                    <div class="category-visual">📢</div>
-                    <div class="category-name">Free Speech</div>
-                    <div class="category-desc">Get it off your chest, no judgement</div>
-                </div>
-                <div class="category-card" data-category="religious-trauma">
-                    <div class="category-visual">⛪</div>
-                    <div class="category-name">Religious Trauma</div>
-                    <div class="category-desc">Faith, doubt, and spiritual wounds</div>
-                </div>
-                <div class="category-card" data-category="love">
-                    <div class="category-visual">💔</div>
-                    <div class="category-name">Love</div>
-                    <div class="category-desc">Heartbreak, crushes, and everything between</div>
-                </div>
-                <div class="category-card" data-category="confessions">
-                    <div class="category-visual">📝</div>
-                    <div class="category-name">Confessions</div>
-                    <div class="category-desc">Say what you can't say anywhere else</div>
-                </div>
-                <div class="category-card" data-category="masks">
-                    <div class="category-visual">🎭</div>
-                    <div class="category-name">Masks & Pretending</div>
-                    <div class="category-desc">The exhaustion of faking who you are</div>
-                </div>
-                <div class="category-card" data-category="failure-shame">
-                    <div class="category-visual">😞</div>
-                    <div class="category-name">Failure & Shame</div>
-                    <div class="category-desc">Career collapse, humiliation, looking stupid</div>
-                </div>
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <a href="#" id="whatsBeenSaidLink" style="color:#1da1f2;font-weight:600;display:block;margin-bottom:18px;">What's been said</a>
+                <a href="#" id="allRoomsLink" style="color:#1da1f2;font-weight:600;display:block;margin-bottom:18px;">All Rooms</a>
+                <a href="#" id="aboutLink" style="color:#1da1f2;font-weight:600;display:block;">About</a>
             </div>
-        </div>
-
-        <!-- Room View -->
-        <div id="roomView" class="hidden">
-            <div class="back-btn" onclick="goHome()">← all rooms</div>
-            <h2 class="room-title" id="roomTitle"></h2>
-
-            <div class="posts" id="postsContainer"></div>
-        </div>
+        </aside>
+        <main class="main-feed">
+            <header>
+                <h1 style="cursor:pointer;" id="homeTitle">Friends<span>&</span>Me</h1>
+            </header>
+            <div id="latestPostContainer"></div>
+        </main>
     </div>
 
     <script>
@@ -722,46 +743,210 @@
             'failure-shame': 'failure & shame'
         };
 
-        // Event listeners for category cards
-        document.querySelectorAll('.category-card').forEach(card => {
-            card.addEventListener('click', () => {
-                currentCategory = card.dataset.category;
-                openRoom(currentCategory);
-            });
+
+        // --- New Layout Logic ---
+
+        // --- Main Feed: All latest posts with Show More ---
+        let feedOffset = 0;
+        const FEED_LIMIT = 10;
+        async function loadMainFeed(reset = false) {
+            if (reset) feedOffset = 0;
+            const { data: posts, error } = await db
+                .from('posts')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .range(feedOffset, feedOffset + FEED_LIMIT - 1);
+            const container = document.getElementById('latestPostContainer');
+            if (reset) container.innerHTML = '';
+            if (error || !posts) {
+                container.innerHTML = '<div class="empty-state"><p>Error loading posts.</p></div>';
+                return;
+            }
+            if (posts.length === 0 && feedOffset === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No posts yet. Be the first to share.</p></div>';
+                return;
+            }
+            container.innerHTML += posts.map(post => renderSinglePost(post, true)).join('');
+            // Show more button
+            let showMoreBtn = document.getElementById('showMoreBtn');
+            if (!showMoreBtn) {
+                showMoreBtn = document.createElement('button');
+                showMoreBtn.id = 'showMoreBtn';
+                showMoreBtn.textContent = 'Show more';
+                showMoreBtn.className = 'modal-submit';
+                showMoreBtn.style.margin = '24px auto 0 auto';
+                showMoreBtn.style.display = 'block';
+                showMoreBtn.onclick = () => { feedOffset += FEED_LIMIT; loadMainFeed(false); };
+                container.parentNode.appendChild(showMoreBtn);
+            }
+            if (posts.length < FEED_LIMIT) showMoreBtn.style.display = 'none';
+            else showMoreBtn.style.display = 'block';
+        }
+
+        // --- All Rooms Grid ---
+        function showAllRoomsGrid() {
+            const container = document.getElementById('latestPostContainer');
+            let html = '<div style="margin-bottom:18px;"><a href="#" id="backToRooms" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>';
+            html += '<div class="categories" style="margin-top:0;">';
+            const roomInfo = {
+                'daily-thoughts': {emoji:'💭',desc:"What's running through your mind today"},
+                'addictions': {emoji:'🎰',desc:"Struggling with habits you can't control"},
+                'unpopular-opinions': {emoji:'🙊',desc:"Views you're afraid to say out loud"},
+                'conspiracy': {emoji:'👁️',desc:"Question everything you've been told"},
+                'anger': {emoji:'💢',desc:"Fury that's hard to contain"},
+                'dark-thoughts': {emoji:'🌑',desc:"When your mind becomes your enemy"},
+                'free-speech': {emoji:'📢',desc:"Get it off your chest, no judgement"},
+                'religious-trauma': {emoji:'⛪',desc:"Faith, doubt, and spiritual wounds"},
+                'love': {emoji:'💔',desc:"Heartbreak, crushes, and everything between"},
+                'confessions': {emoji:'📝',desc:"Say what you can't say anywhere else"},
+                'masks': {emoji:'🎭',desc:"The exhaustion of faking who you are"},
+                'failure-shame': {emoji:'😞',desc:"Career collapse, humiliation, looking stupid"}
+            };
+            for (const [cat, name] of Object.entries(categoryNames)) {
+                html += `<div class="category-card" data-category="${cat}" onclick="openRoom('${cat}')">
+                    <div class="category-visual">${roomInfo[cat]?.emoji || ''}</div>
+                    <div class="category-name">${name}</div>
+                    <div class="category-desc">${roomInfo[cat]?.desc || ''}</div>
+                </div>`;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+            let showMoreBtn = document.getElementById('showMoreBtn');
+            if (showMoreBtn) showMoreBtn.style.display = 'none';
+            // Add back-to-rooms handler
+            setTimeout(() => {
+                const backBtn = document.getElementById('backToRooms');
+                if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+            }, 0);
+        }
+
+        // --- About Page ---
+        function showAboutPage() {
+            const container = document.getElementById('latestPostContainer');
+            container.innerHTML = `<div style="text-align:center;margin-top:48px;">
+                <h2 style="margin:18px 0 8px 0;">About Friends&Me</h2>
+                <p style="color:#8899a6;font-size:1.1rem;max-width:420px;margin:0 auto;">Friends&Me is a safe, anonymous space to share your thoughts and feelings. No accounts, no judgment. Just real talk. Connect with others through rooms like Daily Thoughts, Confessions, and more.</p>
+            </div>`;
+            let showMoreBtn = document.getElementById('showMoreBtn');
+            if (showMoreBtn) showMoreBtn.style.display = 'none';
+        }
+
+        // --- Sidebar Link Handlers ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('whatsBeenSaidLink').onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
+            document.getElementById('allRoomsLink').onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+            document.getElementById('aboutLink').onclick = (e) => { e.preventDefault(); showAboutPage(); };
+            const homeTitle = document.getElementById('homeTitle');
+            if (homeTitle) homeTitle.onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
+            loadMainFeed(true);
         });
 
+        // --- All Rooms Grid ---
+        function showAllRoomsGrid() {
+            const container = document.getElementById('latestPostContainer');
+            let html = '<div class="categories" style="margin-top:24px;">';
+            const roomInfo = {
+                'daily-thoughts': {emoji:'💭',desc:"What's running through your mind today"},
+                'addictions': {emoji:'🎰',desc:"Struggling with habits you can't control"},
+                'unpopular-opinions': {emoji:'🙊',desc:"Views you're afraid to say out loud"},
+                'conspiracy': {emoji:'👁️',desc:"Question everything you've been told"},
+                'anger': {emoji:'💢',desc:"Fury that's hard to contain"},
+                'dark-thoughts': {emoji:'🌑',desc:"When your mind becomes your enemy"},
+                'free-speech': {emoji:'📢',desc:"Get it off your chest, no judgement"},
+                'religious-trauma': {emoji:'⛪',desc:"Faith, doubt, and spiritual wounds"},
+                'love': {emoji:'💔',desc:"Heartbreak, crushes, and everything between"},
+                'confessions': {emoji:'📝',desc:"Say what you can't say anywhere else"},
+                'masks': {emoji:'🎭',desc:"The exhaustion of faking who you are"},
+                'failure-shame': {emoji:'😞',desc:"Career collapse, humiliation, looking stupid"}
+            };
+            for (const [cat, name] of Object.entries(categoryNames)) {
+                html += `<div class="category-card" data-category="${cat}" onclick="openRoom('${cat}')">
+                    <div class="category-visual">${roomInfo[cat]?.emoji || ''}</div>
+                    <div class="category-name">${name}</div>
+                    <div class="category-desc">${roomInfo[cat]?.desc || ''}</div>
+                </div>`;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+            let showMoreBtn = document.getElementById('showMoreBtn');
+            if (showMoreBtn) showMoreBtn.style.display = 'none';
+        }
+
+        // --- About Page ---
+        function showAboutPage() {
+            const container = document.getElementById('latestPostContainer');
+            container.innerHTML = `<div style="text-align:center;margin-top:48px;">
+                <div style="font-size:3.5rem;">ℹ️</div>
+                <h2 style="margin:18px 0 8px 0;">About Friends&Me</h2>
+                <p style="color:#8899a6;font-size:1.1rem;max-width:420px;margin:0 auto;">Friends&Me is a safe, anonymous space to share your thoughts and feelings. No accounts, no judgment. Just real talk. Connect with others through rooms like Daily Thoughts, Confessions, and more.</p>
+            </div>`;
+            let showMoreBtn = document.getElementById('showMoreBtn');
+            if (showMoreBtn) showMoreBtn.style.display = 'none';
+        }
+
+        // --- Sidebar Link Handlers ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('allRoomsLink').onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+            document.getElementById('aboutLink').onclick = (e) => { e.preventDefault(); showAboutPage(); };
+            loadMainFeed(true);
+        });
+
+        // Show single post (center)
+        function renderSinglePost(post, showRoom) {
+            const isRelated = relatedPosts.includes(post.id);
+            const timeAgo = getTimeAgo(post.created_at);
+            const headlineHtml = post.headline ? `<div class="post-headline">${escapeHtml(post.headline)}</div>` : '';
+            const roomBadge = showRoom ? `<span class="room-badge" style="background:#22303c;color:#1da1f2;padding:2px 10px;border-radius:8px;font-size:0.92em;margin-right:8px;">${categoryNames[post.category] || post.category}</span>` : '';
+            return `
+                <div class="post">
+                    ${headlineHtml}
+                    <div class="post-content">${escapeHtml(post.content)}</div>
+                    <div class="post-footer">
+                        <span class="post-time">${roomBadge}${timeAgo}</span>
+                        <button class="relate-btn ${isRelated ? 'related' : ''}" onclick="toggleRelate('${post.id}')">
+                            <span class="heart">${isRelated ? '♥' : '♡'}</span>
+                            <span class="relate-count">${post.relates || 0}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Open room: show all posts for that room in center, with back to all rooms
         async function openRoom(category) {
-            document.getElementById('homeView').classList.add('hidden');
-            document.getElementById('roomView').classList.remove('hidden');
-            document.getElementById('roomTitle').textContent = categoryNames[category];
-            await loadPosts(category);
-        }
-
-        function goHome() {
-            document.getElementById('roomView').classList.add('hidden');
-            document.getElementById('homeView').classList.remove('hidden');
-            currentCategory = null;
-        }
-
-        async function loadPosts(category) {
-            const container = document.getElementById('postsContainer');
-            container.innerHTML = '<div class="empty-state"><p>loading...</p></div>';
-
+            const latestPostContainer = document.getElementById('latestPostContainer');
+            latestPostContainer.innerHTML = '<div style="margin-bottom:18px;"><a href="#" id="backToRoomsFromPosts" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>';
+            latestPostContainer.innerHTML += '<div class="empty-state"><p>loading...</p></div>';
             const { data, error } = await db
                 .from('posts')
                 .select('*')
                 .eq('category', category)
                 .order('created_at', { ascending: false });
-
             if (error) {
-                console.error('Error loading posts:', error);
-                container.innerHTML = '<div class="empty-state"><p>error loading posts</p></div>';
+                latestPostContainer.innerHTML = '<div style="margin-bottom:18px;"><a href="#" id="backToRoomsFromPosts" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>' + '<div class="empty-state"><p>error loading posts</p></div>';
+                setTimeout(() => {
+                    const backBtn = document.getElementById('backToRoomsFromPosts');
+                    if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+                }, 0);
                 return;
             }
-
-            posts = data || [];
-            renderPosts();
+            if (!data || data.length === 0) {
+                latestPostContainer.innerHTML = '<div style="margin-bottom:18px;"><a href="#" id="backToRoomsFromPosts" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>' + `<div class="empty-state"><p>No posts in this room yet.</p></div>`;
+                setTimeout(() => {
+                    const backBtn = document.getElementById('backToRoomsFromPosts');
+                    if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+                }, 0);
+                return;
+            }
+            latestPostContainer.innerHTML = '<div style="margin-bottom:18px;"><a href="#" id="backToRoomsFromPosts" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>' + data.map(post => renderSinglePost(post, false)).join('');
+            setTimeout(() => {
+                const backBtn = document.getElementById('backToRoomsFromPosts');
+                if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
+            }, 0);
         }
+
+        // On load, show latest post and fill sidebar
+        window.addEventListener('DOMContentLoaded', loadLatestPostAndSidebar);
 
         async function toggleRelate(postId) {
             const index = relatedPosts.indexOf(postId);
