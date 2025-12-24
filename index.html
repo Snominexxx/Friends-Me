@@ -823,10 +823,27 @@
         // --- About Page ---
         function showAboutPage() {
             const container = document.getElementById('latestPostContainer');
-            container.innerHTML = `<div style="text-align:center;margin-top:48px;">
-                <h2 style="margin:18px 0 8px 0;">About Friends&Me</h2>
-                <p style="color:#8899a6;font-size:1.1rem;max-width:420px;margin:0 auto;">Friends&Me is a safe, anonymous space to share your thoughts and feelings. No accounts, no judgment. Just real talk. Connect with others through rooms like Daily Thoughts, Confessions, and more.</p>
-            </div>`;
+            container.innerHTML = `
+                <div style="text-align:center;margin-top:36px;">
+                    <h2 style="margin:18px 0 8px 0;">About Friends&Me</h2>
+                    <p style="color:#8899a6;font-size:1.1rem;max-width:420px;margin:0 auto 32px auto;">Friends&Me is a safe, anonymous space to share your thoughts and feelings. No accounts, no judgment. Just real talk. Connect with others through rooms like Daily Thoughts, Confessions, and more.</p>
+                </div>
+                <div style="max-width:600px;margin:0 auto 32px auto;background:#192734;border:1px solid #38444d;border-radius:16px;padding:28px 18px 18px 18px;">
+                    <h3 style="color:#1da1f2;margin-bottom:18px;">The 10 Commandments of Friends&Me</h3>
+                    <ol style="text-align:left;color:#e7e9ea;font-size:1.05rem;line-height:1.7;padding-left:22px;">
+                        <li>Thou shalt not judge, for everyone’s got weird stuff in their head.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “You confessed to eating 12 tacos alone? Respect.”</span></li>
+                        <li>Thou shalt keep it anonymous—no names, no shame, just vibes.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “Signed, NotTellingU99.”</span></li>
+                        <li>Thou shalt not spam, lest ye be banished to the land of unread posts.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “Buy crypto now!” (Nope.)</span></li>
+                        <li>Thou shalt support, not troll. Hugs &gt; hate.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “Sending virtual hugs, not virtual eye rolls.”</span></li>
+                        <li>Thou shalt use the right room. Don’t put your love drama in ‘Conspiracy Theories’ (unless it’s wild).<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “My ex is a lizard person.” (Okay, maybe.)</span></li>
+                        <li>Thou shalt not dox, stalk, or reveal personal info. This isn’t detective school.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “I think I know who you are!” (No, you don’t.)</span></li>
+                        <li>Thou shalt keep it legal. Cops don’t vibe here.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “I robbed a bank.” (Nope, and also… what?)</span></li>
+                        <li>Thou shalt be real, but not mean. Honesty is cool, cruelty is not.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “Your post made me think. Thanks!” (Good.) “You suck.” (Not good.)</span></li>
+                        <li>Thou shalt not take advice as gospel. Internet wisdom is… questionable.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “My cat told me to invest in socks.” (Maybe don’t.)</span></li>
+                        <li>Thou shalt have fun, vent, and remember: you’re not alone in the weirdness.<br><span style='color:#8899a6;font-size:0.98em;'>Ex: “Today I wore my shirt inside out all day. Felt powerful.”</span></li>
+                    </ol>
+                </div>
+            `;
             let showMoreBtn = document.getElementById('showMoreBtn');
             if (showMoreBtn) showMoreBtn.style.display = 'none';
         }
