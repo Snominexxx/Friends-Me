@@ -751,6 +751,23 @@
                 padding: 12px 16px;
                 font-size: 1.1rem;
             }
+            @media (max-width: 700px) {
+                #sidebarNav {
+                    display: none !important;
+                }
+                #mobileMenuBtn {
+                    display: block !important;
+                }
+                .plus-btn {
+                    top: unset !important;
+                    bottom: 18px !important;
+                    right: 18px !important;
+                    width: 56px !important;
+                    height: 56px !important;
+                    font-size: 2.1rem !important;
+                    box-shadow: 0 6px 16px rgba(29, 161, 242, 0.4) !important;
+                }
+            }
         }
     </style>
 </head>
@@ -794,14 +811,39 @@
             </div>
         </aside>
         <main class="main-feed">
-            <header>
+            <header style="display:flex;align-items:center;justify-content:space-between;">
                 <h1 style="cursor:pointer;" id="homeTitle">Friends<span>&</span>Me</h1>
+                <button id="mobileMenuBtn" aria-label="Menu" style="display:none;background:none;border:none;font-size:2rem;color:#1da1f2;line-height:1;cursor:pointer;margin-left:8px;">&#9776;</button>
             </header>
+            <nav id="mobileNavMenu" style="display:none;position:fixed;top:56px;right:0;width:70vw;max-width:260px;background:#192734;border-left:1px solid #38444d;box-shadow:-2px 0 12px rgba(0,0,0,0.18);z-index:2000;padding:24px 0 12px 0;">
+                <a href="#" id="mobileNavFeed" style="display:block;padding:16px 24px;color:#1da1f2;font-weight:600;text-decoration:none;">What's been said</a>
+                <a href="#" id="mobileNavRooms" style="display:block;padding:16px 24px;color:#1da1f2;font-weight:600;text-decoration:none;">All Rooms</a>
+                <a href="#" id="mobileNavAbout" style="display:block;padding:16px 24px;color:#1da1f2;font-weight:600;text-decoration:none;">About</a>
+            </nav>
             <div id="latestPostContainer"></div>
         </main>
     </div>
 
     <script>
+    // Mobile hamburger menu logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNavMenu = document.getElementById('mobileNavMenu');
+        if (mobileMenuBtn && mobileNavMenu) {
+            mobileMenuBtn.onclick = function(e) {
+                e.stopPropagation();
+                mobileNavMenu.style.display = mobileNavMenu.style.display === 'block' ? 'none' : 'block';
+            };
+            document.body.addEventListener('click', function(e) {
+                if (mobileNavMenu.style.display === 'block' && !mobileNavMenu.contains(e.target) && e.target !== mobileMenuBtn) {
+                    mobileNavMenu.style.display = 'none';
+                }
+            });
+            document.getElementById('mobileNavFeed').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; loadMainFeed(true); };
+            document.getElementById('mobileNavRooms').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; showAllRoomsGrid(); };
+            document.getElementById('mobileNavAbout').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; showAboutPage(); };
+        }
+    });
         // Supabase setup
         const SUPABASE_URL = 'https://bgvmhnqifsjypebavxto.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJndm1obnFpZnNqeXBlYmF2eHRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1NjE4MzMsImV4cCI6MjA4MTEzNzgzM30.C_wwv8JvyOMBZ_M47DOSSrC5mm3UB6MDHxTvDIm-YWY';
