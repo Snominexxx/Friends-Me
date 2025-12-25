@@ -31,173 +31,63 @@
     <!-- v1.2 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-                .main-layout {
-                    display: flex;
-                    flex-direction: row;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    min-height: 80vh;
-                }
-                .sidebar {
-                    width: 260px;
-                    background: #192734;
-                    border-right: 1px solid #38444d;
-                    padding: 24px 16px 24px 16px;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 32px;
-                    position: sticky;
-                    top: 0;
-                    align-self: flex-start;
-                    height: 100vh;
-                    min-height: 100vh;
-                }
-                .sidebar-section h3 {
-                    color: #1da1f2;
-                    font-size: 1.05rem;
-                    margin-bottom: 8px;
-                }
-                .sidebar-section ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
-                .sidebar-section ul li {
-                    margin-bottom: 8px;
-                    color: #e7e9ea;
-                    font-size: 0.97rem;
-                }
-                .sidebar-section p {
-                    color: #8899a6;
-                    font-size: 0.95rem;
-                }
-                .main-feed {
-                    flex: 1;
-                    padding: 32px 24px 24px 24px;
-                    min-width: 0;
-                }
-                #latestPostContainer {
-                    margin: 0 auto;
-                    max-width: 520px;
-                }
-                @media (max-width: 700px) {
-                    .main-layout {
-                        flex-direction: column;
-                    }
-                    .sidebar {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        width: 100vw;
-                        height: 56px;
-                        z-index: 1000;
-                        flex-direction: row;
-                        align-items: center;
-                        justify-content: space-around;
-                        border-bottom: 1px solid #38444d;
-                        border-right: none;
-                        background: #192734;
-                        padding: 0;
-                        gap: 0;
-                    }
-                    .sidebar-section {
-                        display: flex;
-                        flex-direction: row;
-                        width: 100vw;
-                        justify-content: space-around;
-                        align-items: center;
-                        min-width: unset;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .sidebar-section a {
-                        margin: 0 8px;
-                        font-size: 1.1rem;
-                        padding: 8px 10px;
-                        border-radius: 8px;
-                        background: none;
-                        color: #1da1f2;
-                        font-weight: 600;
-                        flex: 1 1 0;
-                        text-align: center;
-                    }
-                    .sidebar-section a:active {
-                        background: #22303c;
-                    }
-                    .main-feed {
-                        padding: 70px 2vw 8vw 2vw;
-                    }
-                    header {
-                        margin-bottom: 10px;
-                    }
-                    h1 {
-                        font-size: 1.2rem;
-                    }
-                    .categories {
-                        grid-template-columns: repeat(2, 1fr);
-                        gap: 10px;
-                    }
-                    .category-card {
-                        padding: 18px 6px;
-                        min-height: 120px;
-                        font-size: 1rem;
-                        border-radius: 14px;
-                        margin-bottom: 6px;
-                    }
-                    .category-visual {
-                        width: 38px;
-                        height: 38px;
-                        font-size: 1.3rem;
-                    }
-                    .category-name {
-                        font-size: 1rem;
-                        margin-bottom: 4px;
-                    }
-                    .category-desc {
-                        font-size: 0.85rem;
-                        margin-bottom: 2px;
-                    }
-                    .post {
-                        padding: 10px;
-                        font-size: 1rem;
-                    }
-                    .post-headline {
-                        font-size: 1rem;
-                    }
-                    .post-content {
-                        font-size: 0.98rem;
-                    }
-                    .relate-btn {
-                        padding: 10px 12px;
-                        font-size: 1rem;
-                    }
-                    .modal-overlay {
-                        align-items: flex-end;
-                        padding: 0;
-                    }
-                    .modal {
-                        max-width: 100vw;
-                        width: 100vw;
-                        border-radius: 18px 18px 0 0;
-                        padding: 18px 8px 18px 8px;
-                        margin: 0;
-                    }
-                    .modal-title {
-                        font-size: 1.1rem;
-                    }
-                    .modal-input, .modal-select, .modal-submit {
-                        font-size: 1rem;
-                        padding: 12px 8px;
-                    }
-                    .modal-textarea {
-                        height: 70px;
-                    }
-                    .modal-submit {
-                        padding: 12px;
-                        font-size: 1.1rem;
-                    }
-                }
+        .main-layout {
+            display: flex;
+            flex-direction: row;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #192734;
+            border-right: 1px solid #38444d;
+            padding: 24px 16px 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+            height: 100vh;
+            min-height: 100vh;
+        }
+
+        .sidebar-section h3 {
+            color: #1da1f2;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-section ul li {
+            margin-bottom: 8px;
+            color: #e7e9ea;
+            font-size: 0.97rem;
+        }
+
+        .sidebar-section p {
+            color: #8899a6;
+            font-size: 0.95rem;
+        }
+
+        .main-feed {
+            flex: 1;
+            padding: 32px 24px 24px 24px;
+            min-width: 0;
+        }
+
+        #latestPostContainer {
+            margin: 0 auto;
+            max-width: 520px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -218,6 +108,7 @@
         }
 
         header {
+            position: relative;
             text-align: center;
             padding: 25px 0;
             margin-bottom: 20px;
@@ -231,6 +122,14 @@
 
         h1 span {
             color: #1da1f2;
+        }
+
+        #mobileMenuBtn {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .categories {
@@ -275,6 +174,34 @@
             filter: grayscale(1) contrast(0.8);
             opacity: 0.7;
             transition: all 0.2s ease;
+        }
+
+        @media (max-width: 700px) {
+            #sidebarNav {
+                display: none !important;
+            }
+
+            #mobileMenuBtn {
+                display: block !important;
+            }
+
+            .plus-btn {
+                top: unset !important;
+                bottom: 18px !important;
+                right: 18px !important;
+                width: 56px !important;
+                height: 56px !important;
+                font-size: 2.1rem !important;
+                box-shadow: 0 6px 16px rgba(29, 161, 242, 0.4) !important;
+            }
+
+            header {
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
         }
 
         .category-card:hover .category-visual {
@@ -653,13 +580,13 @@
 
         @media (max-width: 900px) {
             .categories {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
         @media (max-width: 700px) {
             .categories {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -669,7 +596,7 @@
             }
 
             .categories {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
 
@@ -751,22 +678,33 @@
                 padding: 12px 16px;
                 font-size: 1.1rem;
             }
-            @media (max-width: 700px) {
-                #sidebarNav {
-                    display: none !important;
-                }
-                #mobileMenuBtn {
-                    display: block !important;
-                }
-                .plus-btn {
-                    top: unset !important;
-                    bottom: 18px !important;
-                    right: 18px !important;
-                    width: 56px !important;
-                    height: 56px !important;
-                    font-size: 2.1rem !important;
-                    box-shadow: 0 6px 16px rgba(29, 161, 242, 0.4) !important;
-                }
+        }
+
+        @media (max-width: 700px) {
+            #sidebarNav {
+                display: none !important;
+            }
+
+            #mobileMenuBtn {
+                display: block !important;
+            }
+
+            .plus-btn {
+                top: unset !important;
+                bottom: 18px !important;
+                right: 18px !important;
+                width: 56px !important;
+                height: 56px !important;
+                font-size: 2.1rem !important;
+                box-shadow: 0 6px 16px rgba(29, 161, 242, 0.4) !important;
+            }
+
+            header {
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -803,7 +741,7 @@
     </div>
 
     <div class="main-layout">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebarNav">
             <div class="sidebar-section">
                 <a href="#" id="whatsBeenSaidLink" style="color:#1da1f2;font-weight:600;display:block;margin-bottom:18px;">What's been said</a>
                 <a href="#" id="allRoomsLink" style="color:#1da1f2;font-weight:600;display:block;margin-bottom:18px;">All Rooms</a>
@@ -811,7 +749,7 @@
             </div>
         </aside>
         <main class="main-feed">
-            <header style="display:flex;align-items:center;justify-content:space-between;">
+            <header>
                 <h1 style="cursor:pointer;" id="homeTitle">Friends<span>&</span>Me</h1>
                 <button id="mobileMenuBtn" aria-label="Menu" style="display:none;background:none;border:none;font-size:2rem;color:#1da1f2;line-height:1;cursor:pointer;margin-left:8px;">&#9776;</button>
             </header>
@@ -825,32 +763,12 @@
     </div>
 
     <script>
-    // Mobile hamburger menu logic
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNavMenu = document.getElementById('mobileNavMenu');
-        if (mobileMenuBtn && mobileNavMenu) {
-            mobileMenuBtn.onclick = function(e) {
-                e.stopPropagation();
-                mobileNavMenu.style.display = mobileNavMenu.style.display === 'block' ? 'none' : 'block';
-            };
-            document.body.addEventListener('click', function(e) {
-                if (mobileNavMenu.style.display === 'block' && !mobileNavMenu.contains(e.target) && e.target !== mobileMenuBtn) {
-                    mobileNavMenu.style.display = 'none';
-                }
-            });
-            document.getElementById('mobileNavFeed').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; loadMainFeed(true); };
-            document.getElementById('mobileNavRooms').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; showAllRoomsGrid(); };
-            document.getElementById('mobileNavAbout').onclick = (e) => { e.preventDefault(); mobileNavMenu.style.display = 'none'; showAboutPage(); };
-        }
-    });
         // Supabase setup
         const SUPABASE_URL = 'https://bgvmhnqifsjypebavxto.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJndm1obnFpZnNqeXBlYmF2eHRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1NjE4MzMsImV4cCI6MjA4MTEzNzgzM30.C_wwv8JvyOMBZ_M47DOSSrC5mm3UB6MDHxTvDIm-YWY';
         const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentCategory = null;
-        let posts = [];
         let relatedPosts = JSON.parse(localStorage.getItem('friendsme_related')) || [];
 
         const categoryNames = {
@@ -908,43 +826,6 @@
             else showMoreBtn.style.display = 'block';
         }
 
-        // --- All Rooms Grid ---
-        function showAllRoomsGrid() {
-            const container = document.getElementById('latestPostContainer');
-            let html = '<div style="margin-bottom:18px;"><a href="#" id="backToRooms" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>';
-            html += '<div class="categories" style="margin-top:0;">';
-            const roomInfo = {
-                'daily-thoughts': {emoji:'💭',desc:"What's running through your mind today"},
-                'addictions': {emoji:'🎰',desc:"Struggling with habits you can't control"},
-                'unpopular-opinions': {emoji:'🙊',desc:"Views you're afraid to say out loud"},
-                'conspiracy': {emoji:'👁️',desc:"Question everything you've been told"},
-                'anger': {emoji:'💢',desc:"Fury that's hard to contain"},
-                'dark-thoughts': {emoji:'🌑',desc:"When your mind becomes your enemy"},
-                'free-speech': {emoji:'📢',desc:"Get it off your chest, no judgement"},
-                'religious-trauma': {emoji:'⛪',desc:"Faith, doubt, and spiritual wounds"},
-                'love': {emoji:'💔',desc:"Heartbreak, crushes, and everything between"},
-                'confessions': {emoji:'📝',desc:"Say what you can't say anywhere else"},
-                'masks': {emoji:'🎭',desc:"The exhaustion of faking who you are"},
-                'failure-shame': {emoji:'😞',desc:"Career collapse, humiliation, looking stupid"}
-            };
-            for (const [cat, name] of Object.entries(categoryNames)) {
-                html += `<div class="category-card" data-category="${cat}" onclick="openRoom('${cat}')">
-                    <div class="category-visual">${roomInfo[cat]?.emoji || ''}</div>
-                    <div class="category-name">${name}</div>
-                    <div class="category-desc">${roomInfo[cat]?.desc || ''}</div>
-                </div>`;
-            }
-            html += '</div>';
-            container.innerHTML = html;
-            let showMoreBtn = document.getElementById('showMoreBtn');
-            if (showMoreBtn) showMoreBtn.style.display = 'none';
-            // Add back-to-rooms handler
-            setTimeout(() => {
-                const backBtn = document.getElementById('backToRooms');
-                if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
-            }, 0);
-        }
-
         // --- About Page ---
         function showAboutPage() {
             const container = document.getElementById('latestPostContainer');
@@ -972,16 +853,6 @@
             let showMoreBtn = document.getElementById('showMoreBtn');
             if (showMoreBtn) showMoreBtn.style.display = 'none';
         }
-
-        // --- Sidebar Link Handlers ---
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('whatsBeenSaidLink').onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
-            document.getElementById('allRoomsLink').onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
-            document.getElementById('aboutLink').onclick = (e) => { e.preventDefault(); showAboutPage(); };
-            const homeTitle = document.getElementById('homeTitle');
-            if (homeTitle) homeTitle.onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
-            loadMainFeed(true);
-        });
 
         // --- All Rooms Grid ---
         function showAllRoomsGrid() {
@@ -1014,13 +885,55 @@
             if (showMoreBtn) showMoreBtn.style.display = 'none';
         }
 
-        // --- About Page ---
-        // ...existing code...
-
-        // --- Sidebar Link Handlers ---
+        // --- Sidebar & Mobile Link Handlers ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Desktop sidebar
+            document.getElementById('whatsBeenSaidLink').onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
             document.getElementById('allRoomsLink').onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
             document.getElementById('aboutLink').onclick = (e) => { e.preventDefault(); showAboutPage(); };
+
+            const homeTitle = document.getElementById('homeTitle');
+            if (homeTitle) homeTitle.onclick = (e) => { e.preventDefault(); loadMainFeed(true); };
+
+            // Mobile hamburger menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileNavMenu = document.getElementById('mobileNavMenu');
+            if (mobileMenuBtn && mobileNavMenu) {
+                mobileMenuBtn.onclick = function (e) {
+                    e.stopPropagation();
+                    mobileNavMenu.style.display = mobileNavMenu.style.display === 'block' ? 'none' : 'block';
+                };
+
+                document.body.addEventListener('click', function (e) {
+                    if (
+                        mobileNavMenu.style.display === 'block' &&
+                        !mobileNavMenu.contains(e.target) &&
+                        e.target !== mobileMenuBtn
+                    ) {
+                        mobileNavMenu.style.display = 'none';
+                    }
+                });
+
+                document.getElementById('mobileNavFeed').onclick = (e) => {
+                    e.preventDefault();
+                    mobileNavMenu.style.display = 'none';
+                    loadMainFeed(true);
+                };
+
+                document.getElementById('mobileNavRooms').onclick = (e) => {
+                    e.preventDefault();
+                    mobileNavMenu.style.display = 'none';
+                    showAllRoomsGrid();
+                };
+
+                document.getElementById('mobileNavAbout').onclick = (e) => {
+                    e.preventDefault();
+                    mobileNavMenu.style.display = 'none';
+                    showAboutPage();
+                };
+            }
+
+            // Initial load
             loadMainFeed(true);
         });
 
@@ -1036,7 +949,7 @@
                     <div class="post-content">${escapeHtml(post.content)}</div>
                     <div class="post-footer">
                         <span class="post-time">${roomBadge}${timeAgo}</span>
-                        <button class="relate-btn ${isRelated ? 'related' : ''}" onclick="toggleRelate('${post.id}')">
+                        <button class="relate-btn ${isRelated ? 'related' : ''}" data-post-id="${post.id}" onclick="toggleRelate('${post.id}')">
                             <span class="heart">${isRelated ? '♥' : '♡'}</span>
                             <span class="relate-count">${post.relates || 0}</span>
                         </button>
@@ -1078,69 +991,44 @@
             }, 0);
         }
 
-        // On load, show latest post and fill sidebar
-        window.addEventListener('DOMContentLoaded', loadLatestPostAndSidebar);
-
         async function toggleRelate(postId) {
             const index = relatedPosts.indexOf(postId);
-            const post = posts.find(p => p.id === postId);
-            
-            if (!post) return;
+            const isRelated = index !== -1;
 
-            let newRelates;
-            if (index === -1) {
-                relatedPosts.push(postId);
-                newRelates = (post.relates || 0) + 1;
-            } else {
+            // Update local state
+            if (isRelated) {
                 relatedPosts.splice(index, 1);
-                newRelates = Math.max(0, (post.relates || 0) - 1);
+            } else {
+                relatedPosts.push(postId);
             }
-
             localStorage.setItem('friendsme_related', JSON.stringify(relatedPosts));
 
-            // Update in Supabase
-            const { error } = await db
-                .from('posts')
-                .update({ relates: newRelates })
-                .eq('id', postId);
-
-            if (!error) {
-                post.relates = newRelates;
-                renderPosts();
-            }
-        }
-
-        function renderPosts() {
-            const container = document.getElementById('postsContainer');
-
-            if (posts.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <p>no posts yet. be the first to share.</p>
-                    </div>
-                `;
-                return;
+            // Update UI for this post's button
+            const btn = document.querySelector(`button.relate-btn[data-post-id="${postId}"]`);
+            if (btn) {
+                const countEl = btn.querySelector('.relate-count');
+                const heartEl = btn.querySelector('.heart');
+                const current = parseInt(countEl?.textContent || '0', 10) || 0;
+                const updated = Math.max(0, current + (isRelated ? -1 : 1));
+                countEl.textContent = updated;
+                btn.classList.toggle('related', !isRelated);
+                if (heartEl) {
+                    heartEl.textContent = !isRelated ? '♥' : '♡';
+                }
             }
 
-            container.innerHTML = posts.map(post => {
-                const isRelated = relatedPosts.includes(post.id);
-                const timeAgo = getTimeAgo(post.created_at);
-                const headlineHtml = post.headline ? `<div class="post-headline">${escapeHtml(post.headline)}</div>` : '';
-                
-                return `
-                    <div class="post">
-                        ${headlineHtml}
-                        <div class="post-content">${escapeHtml(post.content)}</div>
-                        <div class="post-footer">
-                            <span class="post-time">${timeAgo}</span>
-                            <button class="relate-btn ${isRelated ? 'related' : ''}" onclick="toggleRelate('${post.id}')">
-                                <span class="heart">${isRelated ? '♥' : '♡'}</span>
-                                <span class="relate-count">${post.relates || 0}</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            // Best-effort update to Supabase count (non-blocking)
+            try {
+                const btn = document.querySelector(`button.relate-btn[data-post-id="${postId}"]`);
+                const countEl = btn?.querySelector('.relate-count');
+                const current = parseInt(countEl?.textContent || '0', 10) || 0;
+                await db
+                    .from('posts')
+                    .update({ relates: current })
+                    .eq('id', postId);
+            } catch (e) {
+                console.error('Failed to update relates count', e);
+            }
         }
 
         function escapeHtml(text) {
@@ -1217,10 +1105,9 @@
             closeModal();
             document.getElementById('modalSubmitBtn').textContent = 'Post';
 
-            // If user is in the same room, refresh posts
-            if (currentCategory === category) {
-                await loadPosts(category);
-            }
+            // Refresh main feed so the new post is visible right away
+            loadMainFeed(true);
+
         }
 
         document.getElementById('modalContent').addEventListener('input', checkModalForm);
