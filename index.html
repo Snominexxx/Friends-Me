@@ -401,6 +401,135 @@
             min-width: 20px;
         }
 
+        /* Comments */
+        .post-comments-bar {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .comment-toggle {
+            background: none;
+            border: none;
+            color: #8899a6;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .comment-toggle:hover {
+            color: #1da1f2;
+        }
+
+        .comments-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #38444d;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .comment-item {
+            background: #15202b;
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+
+        .comment-content {
+            font-size: 0.9rem;
+            color: #e7e9ea;
+            margin-bottom: 4px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .comment-meta {
+            font-size: 0.75rem;
+            color: #8899a6;
+        }
+
+        .comment-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        .comment-like-btn {
+            background: none;
+            border: none;
+            color: #8899a6;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 4px;
+            border-radius: 9999px;
+        }
+
+        .comment-like-btn:hover {
+            background: rgba(29, 161, 242, 0.12);
+            color: #1da1f2;
+        }
+
+        .comment-like-btn.liked {
+            color: #f91880;
+        }
+
+        .comment-empty {
+            font-size: 0.85rem;
+            color: #8899a6;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .comment-input {
+            width: 100%;
+            background: #15202b;
+            border: 1px solid #38444d;
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: #e7e9ea;
+            font-size: 0.9rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 50px;
+        }
+
+        .comment-input::placeholder {
+            color: #8899a6;
+        }
+
+        .comment-submit {
+            align-self: flex-end;
+            padding: 6px 14px;
+            background: #1da1f2;
+            border: none;
+            border-radius: 9999px;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .comment-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .empty-state {
             text-align: center;
             padding: 50px 20px;
@@ -781,6 +910,9 @@
 
         let currentCategory = null;
         let relatedPosts = JSON.parse(localStorage.getItem('friendsme_related')) || [];
+        let relatedComments = JSON.parse(localStorage.getItem('friendsme_comment_related')) || [];
+
+        const ANNOUNCEMENT_TEXT = 'Hello Friends,hope 2026 is treating you well so far.I am the one who built this website and i\'m working on make it avaible on Google play store and apple play store.If you have any features or recommandations to add,say it in the comment section.Thx.';
 
         const categoryNames = {
             'daily-thoughts': 'daily thoughts',
@@ -800,27 +932,108 @@
 
         // --- New Layout Logic ---
 
+        // Temporary pinned announcement (always on top of main feed)
+        function getPinnedAnnouncementHtml(announcementPost) {
+            // If a real post exists with this text, render it so users can like/comment
+            if (announcementPost) {
+                return `
+                    <div style="border-radius:16px;border:1px solid #1da1f2;margin-bottom:12px;padding:6px 0;">
+                        <div style="font-size:0.75rem;color:#8899a6;margin:0 16px 4px 16px;display:flex;align-items:center;gap:4px;">
+                            <span>📌</span><span>Message from the creator</span>
+                        </div>
+                        ${renderSinglePost(announcementPost, true)}
+                    </div>
+                `;
+            }
+
+            // Fallback static card (no comments) if the post doesn't exist yet
+            return `
+                <div class="post" style="border-color:#1da1f2;">
+                    <div class="post-headline" style="display:flex;align-items:center;gap:6px;">
+                        <span>📌</span>
+                        <span>Welcome from the creator</span>
+                    </div>
+                    <div class="post-content" style="margin-top:4px;">
+                        Hello Friends,hope 2026 is treating you well so far.I am the one who built this website and i'm working on make it avaible on Google play store and apple play store.If you have any features or recommandations to add,say it in the comment section.Thx.
+                    </div>
+                </div>
+            `;
+        }
+
+        // Ensure the announcement exists as a real post so users can comment on it
+        async function ensureAnnouncementPostExists() {
+            try {
+                const { data, error } = await db
+                    .from('posts')
+                    .select('*')
+                    .eq('content', ANNOUNCEMENT_TEXT)
+                    .limit(1);
+
+                if (!error && data && data.length) {
+                    return data[0];
+                }
+
+                const { data: inserted, error: insertError } = await db
+                    .from('posts')
+                    .insert([{
+                        category: 'daily-thoughts',
+                        headline: null,
+                        content: ANNOUNCEMENT_TEXT,
+                        relates: 0
+                    }])
+                    .select()
+                    .single();
+
+                if (insertError) {
+                    console.error('Failed to create announcement post', insertError);
+                    return null;
+                }
+
+                return inserted;
+            } catch (e) {
+                console.error('Error ensuring announcement post exists', e);
+                return null;
+            }
+        }
+
         // --- Main Feed: All latest posts with Show More ---
         let feedOffset = 0;
         const FEED_LIMIT = 10;
         async function loadMainFeed(reset = false) {
             if (reset) feedOffset = 0;
+            let announcementPost = null;
+            if (reset) {
+                announcementPost = await ensureAnnouncementPostExists();
+            }
             const { data: posts, error } = await db
                 .from('posts')
                 .select('*')
                 .order('created_at', { ascending: false })
                 .range(feedOffset, feedOffset + FEED_LIMIT - 1);
             const container = document.getElementById('latestPostContainer');
-            if (reset) container.innerHTML = '';
+            if (!announcementPost && posts && posts.length) {
+                announcementPost = posts.find(p => p.content === ANNOUNCEMENT_TEXT);
+            }
+            if (reset) {
+                container.innerHTML = getPinnedAnnouncementHtml(announcementPost);
+            }
             if (error || !posts) {
                 container.innerHTML = '<div class="empty-state"><p>Error loading posts.</p></div>';
                 return;
             }
             if (posts.length === 0 && feedOffset === 0) {
-                container.innerHTML = '<div class="empty-state"><p>No posts yet. Be the first to share.</p></div>';
+                container.innerHTML += '<div class="empty-state"><p>No posts yet. Be the first to share.</p></div>';
                 return;
             }
-            container.innerHTML += posts.map(post => renderSinglePost(post, true)).join('');
+
+            // Do not show the announcement twice in the list
+            const visiblePosts = announcementPost
+                ? posts.filter(p => p.id !== announcementPost.id)
+                : posts;
+
+            container.innerHTML += visiblePosts.map(post => renderSinglePost(post, true)).join('');
+            // Load comment counts for these posts (non-blocking)
+            updateCommentCountsForPosts(posts);
             // Show more button
             let showMoreBtn = document.getElementById('showMoreBtn');
             if (!showMoreBtn) {
@@ -948,21 +1161,30 @@
             loadMainFeed(true);
         });
 
-        // Show single post (center)
+        // Show single post (used in feed and rooms)
         function renderSinglePost(post, showRoom) {
             const isRelated = relatedPosts.includes(post.id);
             const timeAgo = getTimeAgo(post.created_at);
             const headlineHtml = post.headline ? `<div class="post-headline">${escapeHtml(post.headline)}</div>` : '';
             const roomBadge = showRoom ? `<span class="room-badge" style="background:#22303c;color:#1da1f2;padding:2px 10px;border-radius:8px;font-size:0.92em;margin-right:8px;">${categoryNames[post.category] || post.category}</span>` : '';
+            const source = showRoom ? 'feed' : 'room';
+            const safeCategory = post.category || '';
             return `
-                <div class="post">
+                <div class="post" onclick="openPostThread('${post.id}','${source}','${safeCategory}')">
                     ${headlineHtml}
                     <div class="post-content">${escapeHtml(post.content)}</div>
                     <div class="post-footer">
                         <span class="post-time">${roomBadge}${timeAgo}</span>
-                        <button class="relate-btn ${isRelated ? 'related' : ''}" data-post-id="${post.id}" onclick="toggleRelate('${post.id}')">
+                        <button class="relate-btn ${isRelated ? 'related' : ''}" data-post-id="${post.id}" onclick="event.stopPropagation(); toggleRelate('${post.id}')">
                             <span class="heart">${isRelated ? '♥' : '♡'}</span>
                             <span class="relate-count">${post.relates || 0}</span>
+                        </button>
+                    </div>
+                    <div class="post-comments-bar">
+                        <button class="comment-toggle" onclick="event.stopPropagation(); openPostThread('${post.id}','${source}','${safeCategory}')">
+                            <span>💬</span>
+                            <span class="comment-count" data-comment-count-for="${post.id}">0</span>
+                            <span>comments</span>
                         </button>
                     </div>
                 </div>
@@ -996,10 +1218,107 @@
                 return;
             }
             latestPostContainer.innerHTML = '<div style="margin-bottom:18px;"><a href="#" id="backToRoomsFromPosts" style="color:#1da1f2;font-weight:600;">← All Rooms</a></div>' + data.map(post => renderSinglePost(post, false)).join('');
+            // Load comment counts for posts in this room
+            updateCommentCountsForPosts(data);
             setTimeout(() => {
                 const backBtn = document.getElementById('backToRoomsFromPosts');
                 if (backBtn) backBtn.onclick = (e) => { e.preventDefault(); showAllRoomsGrid(); };
             }, 0);
+        }
+
+        // Open a single post thread view (like Twitter: full comments on separate view)
+        async function openPostThread(postId, source, category) {
+            const container = document.getElementById('latestPostContainer');
+
+            // Hide "Show more" button in thread view so layout isn't broken
+            const showMoreBtn = document.getElementById('showMoreBtn');
+            if (showMoreBtn) {
+                showMoreBtn.style.display = 'none';
+            }
+
+            const isRoomView = source === 'room' && category;
+            const backLabel = isRoomView ? 'Back to room' : "What's been said";
+
+            container.innerHTML = `
+                <div style="margin-bottom:18px;">
+                    <a href="#" id="backFromThread" style="color:#1da1f2;font-weight:600;">← ${backLabel}</a>
+                </div>
+                <div class="empty-state"><p>Loading post...</p></div>
+            `;
+
+            // Load the post
+            const { data: post, error: postError } = await db
+                .from('posts')
+                .select('*')
+                .eq('id', postId)
+                .single();
+
+            if (postError || !post) {
+                container.innerHTML = `
+                    <div style="margin-bottom:18px;">
+                        <a href="#" id="backFromThread" style="color:#1da1f2;font-weight:600;">← ${backLabel}</a>
+                    </div>
+                    <div class="empty-state"><p>Post not found.</p></div>
+                `;
+                const back = document.getElementById('backFromThread');
+                if (back) {
+                    back.onclick = (e) => {
+                        e.preventDefault();
+                        if (isRoomView) {
+                            openRoom(category);
+                        } else {
+                            loadMainFeed(true);
+                        }
+                    };
+                }
+                return;
+            }
+
+            // Render the post (no inline comments here)
+            const postHtml = renderSinglePost(post, source === 'feed');
+
+            // Dedicated comments section for this thread
+            const threadHtml = `
+                <div style="margin-bottom:18px;">
+                    <a href="#" id="backFromThread" style="color:#1da1f2;font-weight:600;">← ${backLabel}</a>
+                </div>
+                ${postHtml}
+                <div class="comments-section" id="comments-${post.id}" style="margin-top:12px;">
+                    <div class="comments-list" id="comments-list-${post.id}">
+                        <div class="comment-empty">Loading comments...</div>
+                    </div>
+                    <div class="comment-form">
+                        <textarea
+                            id="comment-input-${post.id}"
+                            class="comment-input"
+                            placeholder="Add a comment..."
+                        ></textarea>
+                        <button
+                            id="comment-submit-${post.id}"
+                            class="comment-submit"
+                            onclick="submitComment('${post.id}')"
+                        >Add comment</button>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = threadHtml;
+
+            // Back link behaviour
+            const back = document.getElementById('backFromThread');
+            if (back) {
+                back.onclick = (e) => {
+                    e.preventDefault();
+                    if (isRoomView) {
+                        openRoom(category);
+                    } else {
+                        loadMainFeed(true);
+                    }
+                };
+            }
+
+            // Load comments into this thread view
+            await loadComments(post.id);
         }
 
         async function toggleRelate(postId) {
@@ -1039,6 +1358,143 @@
                     .eq('id', postId);
             } catch (e) {
                 console.error('Failed to update relates count', e);
+            }
+        }
+
+        // --- Comments helpers ---
+        async function updateCommentCountsForPosts(posts) {
+            if (!posts || posts.length === 0) return;
+            for (const post of posts) {
+                try {
+                    const { count, error } = await db
+                        .from('comments')
+                        .select('id', { count: 'exact', head: true })
+                        .eq('post_id', post.id);
+                    if (!error && typeof count === 'number') {
+                        setCommentCount(post.id, count);
+                    }
+                } catch (e) {
+                    console.error('Error loading comment count', e);
+                }
+            }
+        }
+
+        function setCommentCount(postId, count) {
+            const el = document.querySelector(`.comment-count[data-comment-count-for="${postId}"]`);
+            if (el) {
+                el.textContent = count;
+            }
+        }
+
+        async function loadComments(postId) {
+            const listEl = document.getElementById(`comments-list-${postId}`);
+            if (!listEl) return;
+
+            listEl.innerHTML = '<div class="comment-empty">Loading comments...</div>';
+
+            const { data, error } = await db
+                .from('comments')
+                .select('*')
+                .eq('post_id', postId)
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error('Error loading comments', error);
+                listEl.innerHTML = '<div class="comment-empty">Error loading comments.</div>';
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                listEl.innerHTML = '<div class="comment-empty">No comments yet. Be the first to respond.</div>';
+                setCommentCount(postId, 0);
+                return;
+            }
+
+            listEl.innerHTML = data.map(c => {
+                const isLiked = relatedComments.includes(c.id);
+                const likes = c.relates || 0;
+                return `
+                <div class="comment-item">
+                    <div class="comment-content">${escapeHtml(c.content)}</div>
+                    <div class="comment-footer">
+                        <span class="comment-meta">${getTimeAgo(c.created_at)}</span>
+                        <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${c.id}" onclick="toggleCommentRelate('${c.id}')">
+                            <span>${isLiked ? '♥' : '♡'}</span>
+                            <span class="comment-like-count">${likes}</span>
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            setCommentCount(postId, data.length);
+        }
+
+        async function submitComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const btn = document.getElementById(`comment-submit-${postId}`);
+            if (!input || !btn) return;
+
+            const content = input.value.trim();
+            if (!content) return;
+
+            btn.disabled = true;
+            const originalText = btn.textContent;
+            btn.textContent = 'Posting...';
+
+            const { error } = await db
+                .from('comments')
+                .insert([{ post_id: postId, content }]);
+
+            if (error) {
+                console.error('Error adding comment:', error);
+                alert('Failed to add comment. Please try again.');
+                btn.disabled = false;
+                btn.textContent = originalText;
+                return;
+            }
+
+            input.value = '';
+            await loadComments(postId);
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+
+        async function toggleCommentRelate(commentId) {
+            const index = relatedComments.indexOf(commentId);
+            const isLiked = index !== -1;
+
+            // Update local state
+            if (isLiked) {
+                relatedComments.splice(index, 1);
+            } else {
+                relatedComments.push(commentId);
+            }
+            localStorage.setItem('friendsme_comment_related', JSON.stringify(relatedComments));
+
+            // Update UI
+            const btn = document.querySelector(`button.comment-like-btn[data-comment-id="${commentId}"]`);
+            if (btn) {
+                const countEl = btn.querySelector('.comment-like-count');
+                const heartEl = btn.querySelector('span');
+                const current = parseInt(countEl?.textContent || '0', 10) || 0;
+                const updated = Math.max(0, current + (isLiked ? -1 : 1));
+                if (countEl) countEl.textContent = updated;
+                btn.classList.toggle('liked', !isLiked);
+                if (heartEl) heartEl.textContent = !isLiked ? '♥' : '♡';
+            }
+
+            // Best-effort update to Supabase count
+            try {
+                const btnEl = document.querySelector(`button.comment-like-btn[data-comment-id="${commentId}"]`);
+                const countEl = btnEl?.querySelector('.comment-like-count');
+                const current = parseInt(countEl?.textContent || '0', 10) || 0;
+                await db
+                    .from('comments')
+                    .update({ relates: current })
+                    .eq('id', commentId);
+            } catch (e) {
+                console.error('Failed to update comment like count', e);
             }
         }
 
